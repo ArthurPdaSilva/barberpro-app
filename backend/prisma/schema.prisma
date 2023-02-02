@@ -45,7 +45,7 @@ model Haircut {
   status     Boolean   @default(true)
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
-  user_id    String    @unique
+  user_id    String
   user       User      @relation(fields: [user_id], references: [id])
   Service    Service[]
 
@@ -57,9 +57,9 @@ model Service {
   customer   String
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
-  user_id    String    @unique
+  user_id    String
   user       User      @relation(fields: [user_id], references: [id])
-  haircut_id String    @unique
+  haircut_id String
   haircut    Haircut   @relation(fields: [haircut_id], references: [id])
 
   @@map("services")
