@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 String       @id @default(uuid())
+  name               String
+  email              String
+  address            String?
+  password           String
+  stripe_customer_id String?
+  created_at         DateTime?    @default(now())
+  updated_at         DateTime?    @default(now())
+  subscriptions      Subscrption?
+  haircuts           Haircut[]
+  Service            Service[]
+
+  @@map("users")
+}
+
+model Subscrption {
+  id         String    @id
+  status     String
+  price_id   String
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+  user_id    String    @unique
+  user       User      @relation(fields: [user_id], references: [id])
+
+  @@map("subscrptions")
+}
+
+model Haircut {
+  id         String    @id @default(uuid())
+  name       String
+  price      Float
+  status     Boolean   @default(true)
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+  user_id    String    @unique
+  user       User      @relation(fields: [user_id], references: [id])
+  Service    Service[]
+
+  @@map("haircuts")
+}
+
+model Service {
+  id         String    @id @default(uuid())
+  customer   String
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+  user_id    String    @unique
+  user       User      @relation(fields: [user_id], references: [id])
+  haircut_id String    @unique
+  haircut    Haircut   @relation(fields: [haircut_id], references: [id])
+
+  @@map("services")
+}
