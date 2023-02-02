@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import CreateHaircutService from "../../services/haircut/CreateHaircutService";
 import NewScheduleService from "../../services/schedule/NewScheduleService";
 
 export default class NewScheduleController {
