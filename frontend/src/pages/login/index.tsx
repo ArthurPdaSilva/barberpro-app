@@ -3,14 +3,17 @@ import { Button, Center, Flex, Input, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import image from "../../../public/logo.svg";
 import Link from "next/link";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "@/context/Auth";
 
 export default function Login() {
+  const { signIn } = useContext(AuthContext);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  function handleLogin() {
-    console.log(email, password);
+  async function handleLogin() {
+    if (email.length > 3 || password.length > 3) await signIn(email, password);
   }
 
   return (
@@ -43,6 +46,7 @@ export default function Login() {
             placeholder="email@email.com"
             type="email"
             mb={3}
+            color="white"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -53,6 +57,7 @@ export default function Login() {
             placeholder="*******"
             type="password"
             mb={6}
+            color="white"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />

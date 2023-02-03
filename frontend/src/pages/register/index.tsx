@@ -3,15 +3,19 @@ import { Button, Center, Flex, Input, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import image from "../../../public/logo.svg";
 import Link from "next/link";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "@/context/Auth";
 
 export default function Register() {
+  const { signUp } = useContext(AuthContext);
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  function handleRegister() {
-    console.log(name, email, password);
+  async function handleRegister() {
+    if (email.length > 3 || password.length > 3 || name.length > 3)
+      await signUp(name, email, password);
   }
 
   return (
@@ -41,6 +45,7 @@ export default function Register() {
             placeholder="Nome da Barbearia"
             type="text"
             mb={3}
+            color="white"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
@@ -51,6 +56,7 @@ export default function Register() {
             placeholder="email@email.com"
             type="email"
             mb={3}
+            color="white"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -61,6 +67,7 @@ export default function Register() {
             placeholder="*******"
             type="password"
             mb={6}
+            color="white"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
