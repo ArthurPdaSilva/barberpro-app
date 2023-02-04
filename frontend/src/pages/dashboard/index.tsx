@@ -1,13 +1,23 @@
+import { Sidebar } from "@/components/sidebar";
 import { AuthContext } from "@/context/Auth";
 import { canSSRAuth } from "@/utils/canSSRAuth";
+import { Flex, Text } from "@chakra-ui/react";
+import Head from "next/head";
 import React, { useContext } from "react";
 
 export default function Dashboard() {
   const { logoutUser } = useContext(AuthContext);
   return (
-    <div>
-      Dashboard <button onClick={logoutUser}>Sair</button>
-    </div>
+    <>
+      <Head>
+        <title>BarberPRO - Minha barbearia</title>
+      </Head>
+      <Sidebar>
+        <Flex>
+          <Text>Bem vindo</Text>
+        </Flex>
+      </Sidebar>
+    </>
   );
 }
 

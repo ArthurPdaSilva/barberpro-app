@@ -5,7 +5,7 @@ import { parseCookies } from "nookies";
 import { ParsedUrlQuery } from "querystring";
 import { AuthTokenError } from "./errors/AuthTokenError";
 
-function setupApiClient(
+export function setupApiClient(
   ctx:
     | undefined
     | GetServerSidePropsContext<ParsedUrlQuery, PreviewData> = undefined
@@ -34,5 +34,6 @@ function setupApiClient(
 
   return api;
 }
+
 
 export default setupApiClient();

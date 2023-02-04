@@ -11,9 +11,9 @@ const colors = {
   },
   button: {
     cta: "#fba931",
-    default: "#fff",
-    gray: "#dfdfdf",
-    danger: "#ff4040",
+    default: "#FFF",
+    gray: "#DFDFDF",
+    danger: "#FF4040",
   },
   orange: {
     900: "#fba931",
@@ -22,7 +22,7 @@ const colors = {
 
 const theme = extendTheme({ colors });
 
-export default function App({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={theme}>
       <AuthProvider>
@@ -31,3 +31,5 @@ export default function App({ Component, pageProps }: AppProps) {
     </ChakraProvider>
   );
 }
+
+export default MyApp;
