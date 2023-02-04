@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { Flex, Text } from "@chakra-ui/react";
+import { canSSRGuest } from "@/utils/canSSRGuest";
 
 export default function Home() {
   return (
@@ -20,3 +21,9 @@ export default function Home() {
     </>
   );
 }
+
+export const getServerSideProps = canSSRGuest(async (ctx) => {
+  return {
+    props: {},
+  };
+});

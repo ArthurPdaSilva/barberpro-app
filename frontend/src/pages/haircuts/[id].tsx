@@ -13,9 +13,10 @@ import {
 import { Sidebar } from "../../components/sidebar";
 import { FiChevronLeft } from "react-icons/fi";
 import Link from "next/link";
-import { setupApiClient } from "@/services/api";
+import api, { setupApiClient } from "@/services/api";
 import { canSSRAuth } from "@/utils/canSSRAuth";
 import { ParsedUrlQuery } from "querystring";
+import { ChangeEvent, useState } from "react";
 
 interface HaircutProps {
   id: string;
@@ -41,6 +42,34 @@ export default function EditHaircut({
   haircut,
 }: EditHaircutProps) {
   const [isMobile] = useMediaQuery("(max-width: 500px)");
+  const [name, setName] = useState(haircut.name);
+  const [price, setPrice] = useState(haircut.price);
+  const [status, setStatus] = useState(haircut.status);
+  const [disable, setDisable] = useState(
+    haircut.status ? "disabled" : "enabled"
+  );
+
+  function handleDisable(e: ChangeEvent<HTMLInputElement>) {
+    if (e.target.value === "disabled") {
+      setDisable("enabled");
+      setStatus(false);
+    } else {
+      setDisable("disabled");
+      setStatus(true);
+    }
+  }
+
+  async function handleUpdate() {
+    if (name.length === 0 || price === "") return;
+    await api.put("/haircut", {
+      name,
+      price: Number(price),
+      status,
+      haircut_id: haircut.id,
+    });
+
+    alert("Corte atualizado com sucesso!");
+  }
 
   return (
     <>
@@ -104,6 +133,8 @@ export default function EditHaircut({
                 type="text"
                 w="100%"
                 color="white"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 disabled={subscription?.status !== "active"}
               />
 
@@ -115,14 +146,22 @@ export default function EditHaircut({
                 type="number"
                 w="100%"
                 color="white"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
                 disabled={subscription?.status !== "active"}
               />
 
               <Stack mb={6} align="center" direction="row">
-                <Text fontWeight="bold" color="white">
+                <Text fontWeight="bold" color={status ? "white" : "red.400"}>
                   Desativar corte
                 </Text>
-                <Switch size="lg" colorScheme="red" />
+                <Switch
+                  size="lg"
+                  colorScheme="red"
+                  value={disable}
+                  onChange={handleDisable}
+                  isChecked={disable === "disabled" ? false : true}
+                />
               </Stack>
 
               {subscription?.status !== "active" ? (
@@ -148,7 +187,7 @@ export default function EditHaircut({
                   type="button"
                   _hover={{ bg: "#FFB13e" }}
                   disabled={true}
-                  onClick={() => alert("Penis")}
+                  onClick={handleUpdate}
                 >
                   Salvar
                 </Button>
