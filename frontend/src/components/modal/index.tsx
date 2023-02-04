@@ -10,7 +10,6 @@ import {
   Button,
   Flex,
 } from "@chakra-ui/react";
-
 import { FiUser, FiScissors } from "react-icons/fi";
 import { FaMoneyBillAlt } from "react-icons/fa";
 import { ScheduleItem } from "../../pages/dashboard";
